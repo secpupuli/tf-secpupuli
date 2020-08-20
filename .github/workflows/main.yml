@@ -1,0 +1,39 @@
+
+name: Deploy
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  Terraform:
+    name: Terraform Plan & Apply
+    runs-on: ubuntu-latest
+    steps:
+
+    - name: Checkout Repo
+      uses: actions/checkout@v2
+
+    - name: Terraform Setup
+      uses: hashicorp/setup-terraform@v1
+
+    - name: Setup Terraform Cloud Credentials
+      run: echo "credentials \"app.terraform.io\" { token = \"${TFE_TOKEN}\" }" > ~/.terraformrc
+      env:
+        TFE_TOKEN: ${{ secrets.TFE_TOKEN }}
+      
+    - name: Terraform Init
+      run: terraform init
+      env:
+        GITHUB_TOKEN: ${{ secrets.TERRAFORM_MANAGEMENT_TOKEN }}
+        TF_ACTION_WORKING_DIR: '.'
+        
+    - name: Terraform validate
+      run: terraform validate
+
+    - name: Terraform Apply
+      run: terraform apply -auto-approve
+      env:
+        GITHUB_TOKEN: ${{ secrets.TERRAFORM_MANAGEMENT_TOKEN }}
+        TF_ACTION_WORKING_DIR: '.'

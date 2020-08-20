@@ -1,0 +1,39 @@
+---
+name: Pull Request
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  Terraform:
+    name: Terraform Plan
+    runs-on: ubuntu-latest
+    steps:
+
+    - name: Checkout Repo
+      uses: actions/checkout@v2
+
+    - name: Terraform Setup
+      uses: hashicorp/setup-terraform@v1
+
+    - name: Setup Terraform Cloud Credentials
+      run: echo "credentials \"app.terraform.io\" { token = \"${TFE_TOKEN}\" }" > ~/.terraformrc
+      env:
+        TFE_TOKEN: ${{ secrets.TFE_TOKEN }}
+
+    - name: Terraform Init
+      run: terraform init
+      env:
+        GITHUB_TOKEN: ${{ secrets.TERRAFORM_MANAGEMENT_TOKEN }}
+        TF_ACTION_WORKING_DIR: '.'
+
+    - name: Terraform Validate
+      run: terraform validate
+
+    - name: Terraform Plan
+      run: terraform plan
+      env:
+        GITHUB_TOKEN: ${{ secrets.TERRAFORM_MANAGEMENT_TOKEN }}
+        TF_ACTION_WORKING_DIR: '.'
