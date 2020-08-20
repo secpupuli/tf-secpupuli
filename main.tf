@@ -13,7 +13,6 @@ terraform {
 provider "github" {
   version      = "~> 2.9.2"
   organization = "secpupuli"
-  token        = var.github_token
 }
 
 resource "github_membership" "owner" {

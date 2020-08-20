@@ -5,7 +5,8 @@ pmc_members = [
 
 non_pmc_admins = [
   "roidelapluie",
-  "ekohl"
+  "ekohl",
+  "pccibot"
 ]
 
 terraform_repos = [

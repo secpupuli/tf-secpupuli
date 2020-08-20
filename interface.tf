@@ -1,7 +1,3 @@
-variable "github_token" {
-  type = string
-}
-
 variable "pmc_members" {
   type = list(string)
 }
