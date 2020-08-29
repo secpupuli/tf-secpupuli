@@ -13,6 +13,7 @@ terraform {
 provider "github" {
   version      = "~> 2.9.2"
   organization = "secpupuli"
+  token        = var.github_token
 }
 
 resource "github_membership" "owner" {
@@ -32,7 +33,7 @@ resource "github_team_membership" "terraform_admin_member" {
 
   team_id  = github_team.terraform_admins.id
   username = each.key
-  role     = "member"
+  role     = "maintainer" # If you try to set 'member', github will promote us back to maintainers as we're already repo owners
 }
 
 module "terraform_git_repo" {
