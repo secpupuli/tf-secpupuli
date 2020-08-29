@@ -9,6 +9,7 @@ data "github_repositories" "repos" {
 resource "github_repository" "repo" {
   name      = var.repo_name
   auto_init = true
+  private   = true
 
   # Only if the repository already exists can we set the default branch
   default_branch = contains(data.github_repositories.repos.names, var.repo_name) ? "main" : null
