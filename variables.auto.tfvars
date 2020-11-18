@@ -1,7 +1,8 @@
 pmc_members = [
   "alexjfisher",
   "bastelfreak",
-  "dhollinger"
+  "dhollinger",
+  "llowder"
 ]
 
 non_pmc_admins = [
